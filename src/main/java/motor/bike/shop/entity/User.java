@@ -22,6 +22,7 @@ public class User {
     private String password;
     private String phoneNumber;
     private String address;
+    private String picture;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Cart> carts;
@@ -91,5 +92,13 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }

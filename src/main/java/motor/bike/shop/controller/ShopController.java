@@ -1,10 +1,7 @@
 package motor.bike.shop.controller;
 
 import com.google.common.hash.Hashing;
-import motor.bike.shop.entity.Cart;
-import motor.bike.shop.entity.Product;
-import motor.bike.shop.entity.Purchase;
-import motor.bike.shop.entity.User;
+import motor.bike.shop.entity.*;
 import motor.bike.shop.repository.CartRepository;
 import motor.bike.shop.repository.ProductRepository;
 import motor.bike.shop.repository.PurchaseRepository;
@@ -15,12 +12,16 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -253,6 +254,8 @@ public class ShopController {
                 newCart = carts.get(0);
             }
             out.addAttribute("idCart", newCart.getIdCart());
+            UploadForm uploadForm = new UploadForm();
+            out.addAttribute("uploadForm", uploadForm);
             return "user";
         }
         return "products";
@@ -270,6 +273,50 @@ public class ShopController {
             userRepository.saveAndFlush(userFromDb);
         }
         return "redirect:/user";
+    }
+
+    private String doUpload(HttpServletRequest request, Model out, UploadForm uploadForm, Long idUser, HttpSession session) {
+        Optional<User> optionalUser = userRepository.findById(idUser);
+        if (optionalUser.isPresent()) {
+            User userFromDb = (User) session.getAttribute("sessionUser");
+            // Root Directory.
+            String uploadRootPath = request.getServletContext().getRealPath("upload");
+            System.out.println("uploadRootPath=" + uploadRootPath);
+            File uploadRootDir = new File(uploadRootPath);
+            // Create directory if it not exists.
+            if (!uploadRootDir.exists()) {
+                uploadRootDir.mkdirs();
+            }
+            MultipartFile[] fileDatas = uploadForm.getFileDatas();
+
+            for (MultipartFile fileData : fileDatas) {
+
+                // Client File Name
+                String name = fileData.getOriginalFilename();
+                if (name != null && name.length() > 0) {
+                    try {
+                        // Create the file at server
+                        File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name);
+                        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+                        stream.write(fileData.getBytes());
+                        stream.close();
+
+                        userFromDb.setPicture(serverFile.getPath());
+                        userRepository.save(userFromDb);
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        }
+        return "redirect:/user";
+    }
+
+    @PostMapping("/updatePicture")
+    public String uploadOneFileHandlerPOST(HttpServletRequest request, Model model,
+                                           @ModelAttribute("uploadForm") UploadForm uploadForm,
+                                           Long idUser, HttpSession session) {
+
+        return this.doUpload(request, model, uploadForm, idUser, session);
     }
 
     @GetMapping("/showPicture")

@@ -35,7 +35,7 @@
     </header>
     <div class="container-picutre">
         <img class="picture" src="../static/images/IMG_20190702_164339_343.jpg"
-             th:src="@{/images/IMG_20190702_164339_343.jpg}"/>
+             th:src="@{/showPicture(url=${user.getPicture()})}"/>
     </div>
     <div class="row user">
         <div class="col-10">
@@ -118,17 +118,18 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form enctype="multipart/form-data" method="POST" th:action="@{/updatePicture}">
+                    <form enctype="multipart/form-data" method="POST" th:action="@{/updatePicture}"
+                          th:object="${uploadForm}">
                         <div class="modal-body">
                             <div class="form-group">
-                                <input accept="image/jpeg, image/png" type="file"/>
+                                <input accept="image/jpeg, image/png" th:field="*{fileDatas}" type="file"/>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-                            <button class="btn btn-primary" type="button">Save changes</button>
+                            <button class="btn-hover" data-dismiss="modal" type="button">Annuler</button>
+                            <button class="btn-hover" type="input">Enregistrer</button>
                         </div>
-                        <input name="idUser" type="hidden"/>
+                        <input name="idUser" th:value="${user.idUser}" type="hidden"/>
                     </form>
                 </div>
             </div>
