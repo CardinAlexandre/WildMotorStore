@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="Alexandre Prieur" name="author">
+    <meta content="Wild Motor Shop" name="description">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/03c3224431.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
+    <link href="../static/css/user.css" rel="stylesheet" th:href="@{/css/user.css}">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <title id="pageTitle">Panier</title>
+</head>
+<body>
+<div id="logo">
+    <img alt="logo" height="50" src="../static/images/LogoWildMotorStore.png" th:src="@{/images/LogoWildMotorStore.png}"
+         width="100"/>
+</div>
+<div class="page-wrap">
+    <header id="nav">
+        <button class="toggle-nav" onclick="displayLogo(event)">
+            <span>></span>
+        </button>
+        <ul class="nav">
+            <li class="loud"><a href="product.html" th:href="@{/products}"><i class="fas fa-home"></i></a></li>
+            <li class="loud"><a href="cart.html" th:href="@{/cart/{id}(id=${idCart})}"><i
+                    class="fas fa-shopping-basket"></i></a></li>
+            <li class="loud"><a href="user.html" th:href="@{/user}"><i class="fas fa-user"></i></a></li>
+            <li class="loud"><a href="index.html" th:href="@{/}"><i class="fas fa-sign-out-alt"></i></a></li>
+        </ul>
+    </header>
+    <div class="container-picutre">
+        <img class="picture" src="../static/images/IMG_20190702_164339_343.jpg"
+             th:src="@{/images/IMG_20190702_164339_343.jpg}"/>
+    </div>
+    <div class="row user">
+        <div class="col-10">
+            <div class="row profil">
+                <div class="col-5" th:text="|Prénom : ${user.firstname}|">
+                    Prenom
+                </div>
+                <div class="col-4" th:text="|Nom : ${user.lastname}|">
+                    Nom
+                </div>
+                <div class="col-1">
+                    <button data-target="#updateUser" data-toggle="modal"
+                            style="background: black; color: #dedae1; border: none;"
+                            type="button">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                </div>
+                <div class="col-9" th:text="|Adresse : ${user.address}|">
+                    Adresse : 18 place roguet, 31000 Toulouse
+                </div>
+                <div class="col-1">
+                    <button data-target="#updatePicture" data-toggle="modal"
+                            style="background: black; color: #dedae1; border: none;">
+                        <i class="fas fa-image"></i>
+                    </button>
+                </div>
+                <div class="col-10" th:text="|Numéro : ${user.phoneNumber}|">
+                    Numero : 07 69 52 15 18
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal updateUser -->
+    <div aria-hidden="true" aria-labelledby="updateUser" class="modal fade" id="updateUser" role="dialog" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modification des informations personnelles</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" th:action="@{/updateUser}" th:object="${user}">
+                        <div>
+                            <label class="col-3" for="firstname">Prénom :</label>
+                            <input class="col-8" id="firstname" th:field="*{firstname}" type="text">
+                        </div>
+                        <div>
+                            <label class="col-3" for="lastname">Nom :</label>
+                            <input class="col-8" id="lastname" th:field="*{lastname}" type="text">
+                        </div>
+                        <div>
+                            <label class="col-3" for="address">Adresse :</label>
+                            <input class="col-8" id="address" th:field="*{address}" type="text">
+                        </div>
+                        <div>
+                            <label class="col-3" for="phoneNumber">Numero :</label>
+                            <input class="col-8" id="phoneNumber" th:field="*{phoneNumber}" type="text">
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Fermer</button>
+                            <button class="btn btn-primary" type="submit">Enregistrer</button>
+                        </div>
+                        <input name="idUser" th:field="*{idUser}" type="hidden">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal updatePicture -->
+    <div aria-hidden="true" aria-labelledby="updatePicture" class="modal fade" id="updatePicture" role="dialog"
+         tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modification de la photo</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form enctype="multipart/form-data" method="POST" th:action="@{/updatePicture}">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input accept="image/jpeg, image/png" type="file"/>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                            <button class="btn btn-primary" type="button">Save changes</button>
+                        </div>
+                        <input name="idUser" type="hidden"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="order-container" style="clear:both;">
+        <div class="row order">
+            <div class="col-12">
+                <div class="row" th:each="cart : ${carts}">
+                    <div class="col-9" th:text="|Panier : ${cart.idCart}|">
+                        Commande 1
+                    </div>
+                    <div class="col-2" th:text="|${cart.total} €|"></div>
+                    <div class="col-1 dropdown">
+                        <button class="display" id="display" onclick="displyMore(); reply_click()">
+                            <i class="fas fa-plus minus" id="minus"></i>
+                        </button>
+                    </div>
+                    <div class="dropdown-action" id="dropdown" style="display: none;">
+                        <div th:each="purchase : ${purchases}" th:if="${purchase.cart.idCart}==${cart.idCart}">
+                            <div class="row product-container">
+                                <div class="col-10 product">
+                                    <div class="col-6" th:text="${purchase.product.name}">Nom du produit</div>
+                                    <div class="col-0" th:text="${purchase.product.picture}">Image du produit</div>
+                                    <div class="col-3" th:text="${purchase.quantity}">Quantité</div>
+                                    <div class="col-3" th:text="|${purchase.product.price} €|">Prix</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<footer>
+    <div class="col-12 rounded-social-buttons">
+        <div class="row footer">
+            <div class="col-4 media">
+                <a class="social-button facebook" href="https://www.facebook.com/" target="_blank"><i
+                        class="fab fa-facebook-f"></i></a>
+            </div>
+            <div class="col-4 media">
+                <a class="social-button linkedin" href="https://www.linkedin.com/" target="_blank"><i
+                        class="fab fa-linkedin"></i></a>
+            </div>
+            <div class="col-4 media">
+                <a class="social-button instagram" href="https://www.instagram.com/" target="_blank"><i
+                        class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+<script crossorigin="anonymous"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        const header = $("header"),
+            btn = $("button.toggle-nav");
+        btn.on("click", function () {
+            header.toggleClass("active");
+        });
+    });
+</script>
+<script>
+    function displayLogo() {
+        event.preventDefault();
+        const logo = document.getElementById("logo");
+        if (logo.style.display === "none") {
+            logo.style.display = "block";
+        } else {
+            logo.style.display = "none";
+        }
+    }
+</script>
+<script>
+    var list = document.getElementsByClassName("dropdown-action");
+    for (var i = 0; i < list.length; i++) {
+        list[i].setAttribute("id", "dropdown" + i);
+        list[i].setAttribute("id", "display" + i);
+    }
+    function reply_click()
+    {
+        return event.target.id;
+    }
+
+    function displyMore() {
+        var i = 0;
+        var id_str1 = list[i].id;
+        var id_str2 = list[i].id;
+        var id1 = id_str1.substr(8);
+        var id2 = id_str2.substr(7);
+        const x = document.getElementById("dropdown" + id1);
+        if (reply_click() === "display" + id2) {
+            const y = document.getElementById("minus");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+            if (x.style.display === "block") {
+                y.className = "fas fa-minus";
+            } else {
+                y.className = "fas fa-plus";
+            }
+        } else {
+            i++;
+            displyMore()
+        }
+    }
+</script>
+</body>
+</html>

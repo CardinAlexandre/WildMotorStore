@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="Alexandre Prieur" name="author">
+    <meta content="Wild Motor Shop" name="description">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/03c3224431.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
+    <link href="../static/css/cart.css" rel="stylesheet" th:href="@{/css/cart.css}">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <title id="pageTitle">Panier</title>
+</head>
+<body>
+<div class="page-wrap">
+    <div id="logo">
+        <img alt="logo" height="50" src="../static/images/LogoWildMotorStore.png"
+             th:src="@{/images/LogoWildMotorStore.png}" width="100"/>
+    </div>
+    <header id="nav">
+        <button class="toggle-nav" onclick="displayLogo(event)">
+            <span>></span>
+        </button>
+        <ul class="nav">
+            <li class="loud"><a href="product.html" th:href="@{/products}"><i class="fas fa-home"></i></a></li>
+            <li class="loud"><a href="cart.html" th:href="@{/cart/{id}(id=${idCart})}"><i
+                    class="fas fa-shopping-basket"></i></a></li>
+            <li class="loud"><a href="user.html" th:href="@{/user}"><i class="fas fa-user"></i></a></li>
+            <li class="loud"><a href="index.html" th:href="@{/}"><i class="fas fa-sign-out-alt"></i></a></li>
+        </ul>
+    </header>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4" id="phrase">Les produits que vous avez sélectionné</div>
+        <form class="col-4 button" method="POST" th:action="@{/cart}">
+            <button class="order" data-hover="commander !">
+                <input type="hidden" name="idCart" th:value="*{cart.idCart}">
+                <div th:text="|${total} €|">Prix !</div>
+            </button>
+        </form>
+    </div>
+    <form method="POST" th:action="@{/delete/product}" th:each="purchase : ${purchases}" th:object="${purchase}"
+          th:if="${purchase.cart.idCart}==${cart.idCart}">
+        <div class="row product-container">
+            <div class="col-10 product">
+                <input name="idPurchase" th:value="*{idPurchase}" type="hidden">
+                <input name="idCart" th:value="*{cart.idCart}" type="hidden">
+                <input name="price" th:value="*{product.price}" type="hidden">
+                <input name="page" th:value="${page}" type="hidden">
+                <div class="col-5" th:text="${purchase.product.name}">Nom du produit</div>
+                <div class="col-0" th:text="${purchase.product.picture}">Image du produit</div>
+                <div class="col-3" th:text="${purchase.quantity}">Quantité</div>
+                <div class="col-3" th:text="|${purchase.product.price} €|">Prix</div>
+                <button class="col-1" style="background: white; color: black; border: none;"
+                        type="submit">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<footer>
+    <div class="col-12 rounded-social-buttons">
+        <div class="row footer">
+            <div class="col-4 media">
+                <a class="social-button facebook" href="https://www.facebook.com/" target="_blank"><i
+                        class="fab fa-facebook-f"></i></a>
+            </div>
+            <div class="col-4 media">
+                <a class="social-button linkedin" href="https://www.linkedin.com/" target="_blank"><i
+                        class="fab fa-linkedin"></i></a>
+            </div>
+            <div class="col-4 media">
+                <a class="social-button instagram" href="https://www.instagram.com/" target="_blank"><i
+                        class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+<script crossorigin="anonymous"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        const header = $("header"),
+            btn = $("button.toggle-nav");
+        btn.on("click", function () {
+            header.toggleClass("active");
+        });
+    });
+</script>
+<script>
+    function displayLogo() {
+        event.preventDefault();
+        const logo = document.getElementById("logo");
+        if (logo.style.display === "none") {
+            logo.style.display = "block";
+        } else {
+            logo.style.display = "none";
+        }
+    }
+</script>
+</body>
+</html>
