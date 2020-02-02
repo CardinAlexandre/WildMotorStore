@@ -143,8 +143,8 @@
                     </div>
                     <div class="col-2" th:text="|${cart.total} €|"></div>
                     <div class="col-1 dropdown">
-                        <button class="display" id="display" onclick="displyMore(); reply_click()">
-                            <i class="fas fa-plus minus" id="minus"></i>
+                        <button class="display" id="display">
+                            <i class="fas fa-plus" id="minus"></i>
                         </button>
                     </div>
                     <div class="dropdown-action" id="dropdown" style="display: none;">
@@ -216,40 +216,9 @@
     }
 </script>
 <script>
-    var list = document.getElementsByClassName("dropdown-action");
-    for (var i = 0; i < list.length; i++) {
-        list[i].setAttribute("id", "dropdown" + i);
-        list[i].setAttribute("id", "display" + i);
-    }
-    function reply_click()
-    {
-        return event.target.id;
-    }
-
-    function displyMore() {
-        var i = 0;
-        var id_str1 = list[i].id;
-        var id_str2 = list[i].id;
-        var id1 = id_str1.substr(8);
-        var id2 = id_str2.substr(7);
-        const x = document.getElementById("dropdown" + id1);
-        if (reply_click() === "display" + id2) {
-            const y = document.getElementById("minus");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-            if (x.style.display === "block") {
-                y.className = "fas fa-minus";
-            } else {
-                y.className = "fas fa-plus";
-            }
-        } else {
-            i++;
-            displyMore()
-        }
-    }
+    $('.dropdown').on('click', function() {
+        $(this).next().toggle();
+    });
 </script>
 </body>
 </html>
