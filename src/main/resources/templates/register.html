@@ -40,7 +40,7 @@
                         <span class="input-group-text"><i class="fa fa-key"></i></span>
                     </div>
                     <input class="form-control" id="password" name="password" pattern="[a-zA-Z0-9]{5,10}" required
-                           th:field="*{password}" title="5 to 10 characters" type="password">
+                           th:field="*{password}" title="5 à 10 caractères" type="password">
                 </div>
             </div>
             <div class="form-group">
@@ -50,12 +50,14 @@
                         <span class="input-group-text"><i class="fa fa-key"></i></span>
                     </div>
                     <input class="form-control" id="confirmPassword" name="confirmPassword" pattern="[a-zA-Z0-9]{5,10}"
-                           required title="5 to 10 characters" type="password">
+                           required title="5 à 10 caractères" type="password">
                 </div>
             </div>
             <div class="connexion-box-btn">
-                <a class="boton" id="boton" onclick="document.getElementById('myform').submit()"
-                   style="cursor: pointer;">Enregistrer</a>
+                <a class="boton">
+                    <input class="boton-box" type="submit" value="Enregistrer"
+                   style="cursor: pointer;">
+                </a>
             </div>
         </form>
     </div>
@@ -71,6 +73,7 @@
 
         $(".twist").css("width", "25%").css("width", "+=3px");
     });
+
 </script>
 <script>
     // $(document).ready(function(e) {
