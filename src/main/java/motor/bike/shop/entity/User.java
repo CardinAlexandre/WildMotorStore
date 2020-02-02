@@ -14,10 +14,12 @@ public class User {
 
     private String firstname;
     private String lastname;
+
     @NotNull
     @Email
     @Column(unique = true)
     private String email;
+
     @NotNull
     private String password;
     private String phoneNumber;

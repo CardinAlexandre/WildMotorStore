@@ -19,6 +19,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,7 +31,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class ShopController {
+public class ShopController extends Component {
 
 
     @Autowired
@@ -63,7 +65,7 @@ public class ShopController {
             session.setAttribute("sessionUser", user);
             return "redirect:/products";
         }
-        return "redirect:/connection";
+        return "redirect:/";
     }
 
     @GetMapping("deconnexion")
@@ -81,9 +83,13 @@ public class ShopController {
     }
 
     @PostMapping("/creation/de/compte")
-    public String register(Model out, User user, @RequestParam String password, @RequestParam String confirmPassword, HttpSession session) {
+    public String register(Model out, User user,@RequestParam String email, @RequestParam String password, @RequestParam String confirmPassword, HttpSession session) {
         if (session.getAttribute("user") != null) {
             return "redirect:/products";
+        }
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isPresent()) {
+            return "redirect:/inscription";
         }
         if (password.equals(confirmPassword)) {
             String encryptedPassword = Hashing.sha256()
@@ -93,8 +99,12 @@ public class ShopController {
             User sessionUser = (User) session.getAttribute("sessionUser");
             out.addAttribute("sessionUser", sessionUser);
             userRepository.save(user);
-            out.addAttribute("user", user);
-            return "redirect:/products";
+            Optional<User> optionaNewlUser = userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+            if (optionaNewlUser.isPresent()) {
+                user = optionaNewlUser.get();
+                session.setAttribute("sessionUser", user);
+                return "redirect:/products";
+            }
         }
         return "redirect:/inscription";
     }
