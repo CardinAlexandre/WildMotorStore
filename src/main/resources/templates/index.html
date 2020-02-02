@@ -37,7 +37,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-key"></i></span>
                     </div>
-                    <input class="form-control" id="password" th:field="*{password}" type="password" required/>
+                    <input class="form-control" id="password" th:field="*{password}" type="password" required pattern="[a-z]{5,10}" title="5 to 10 characters">
                 </div>
             </div>
             <div class="connexion-box-btn">

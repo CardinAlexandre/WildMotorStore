@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html lang="fr" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
@@ -21,7 +21,8 @@
 </div>
 <div class="connection">
     <div class="col-lg-6 col-md-8 col-sm-11 connexion-box">
-        <form id="myform" method="post" th:action="@{/creation/de/compte}" th:object="${newUser}">
+        <form id="myform" method="post" onsubmit="return checkForm(this);" th:action="@{/creation/de/compte}"
+              th:object="${newUser}">
             <div class="form-group">
                 <label for="email">Email</label>
                 <div class="input-group">
@@ -38,8 +39,8 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-key"></i></span>
                     </div>
-                    <input class="form-control" id="password" name="password" pattern=".{5,15}" required th:field="*{password}"
-                           type="password" title="Votre mot de passe doit comporter un minimum de 5 et un maximum de 15 caractères."/>
+                    <input class="form-control" id="password" name="password" pattern="[a-zA-Z0-9]{5,10}" required
+                           th:field="*{password}" title="5 to 10 characters" type="password">
                 </div>
             </div>
             <div class="form-group">
@@ -48,12 +49,12 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-key"></i></span>
                     </div>
-                    <input class="form-control" id="confirmPassword" pattern=".{5,15}" name="confirmPassword"
-                           required type="password" title="Votre mot de passe doit comporter un minimum de 5 et un maximum de 15 caractères."/>
+                    <input class="form-control" id="confirmPassword" name="confirmPassword" pattern="[a-zA-Z0-9]{5,10}"
+                           required title="5 to 10 characters" type="password">
                 </div>
             </div>
             <div class="connexion-box-btn">
-                <a class="boton" onclick="document.getElementById('myform').submit()"
+                <a class="boton" id="boton" onclick="document.getElementById('myform').submit()"
                    style="cursor: pointer;">Enregistrer</a>
             </div>
         </form>
@@ -70,6 +71,27 @@
 
         $(".twist").css("width", "25%").css("width", "+=3px");
     });
+</script>
+<script>
+    // $(document).ready(function(e) {
+    //     $('#email').change(function() {
+    //         var sEmail = $('#email').val();
+    //         if ($.trim(sEmail).length === 0) {
+    //             alert('Rentrer un email valide');
+    //             e.preventDefault();
+    //         }
+    //         else {
+    //             alert('Invalid Email Address');
+    //             e.preventDefault();
+    //         }
+    //     });
+    //     $('#password').en(function() {
+    //         if ($("#password").length < "5") {
+    //             alert('Le mot de passe doit contenir au minimum 5 caractères');
+    //             e.preventDefault();
+    //         }
+    //     });
+    // });
 </script>
 </body>
 </html>
