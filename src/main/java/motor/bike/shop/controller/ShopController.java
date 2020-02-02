@@ -295,7 +295,7 @@ public class ShopController {
         int result = 0;
         for (Purchase purchase : purchases) {
             if (purchase.getCart().getIdCart().equals(idCart)) {
-                price = purchase.getProduct().getPrice();
+                price = purchase.getProduct().getPrice() * purchase.getQuantity();
                 result += price;
             }
         }

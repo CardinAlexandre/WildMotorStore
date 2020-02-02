@@ -250,6 +250,10 @@ body {
     margin: 0;
 }
 
+.product {
+    margin: 1em;
+}
+
 #dropdown{
     display: none;
 }
