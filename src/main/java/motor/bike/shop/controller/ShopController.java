@@ -27,6 +27,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +47,20 @@ public class ShopController extends Component {
 
     @Autowired
     public ProductRepository productRepository;
+
+    private final Path fileStorageLocation;
+
+    @Autowired
+    public ShopController(FileStorageProperties fileStorageProperties) {
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
+                .toAbsolutePath().normalize();
+
+        try {
+            Files.createDirectories(this.fileStorageLocation);
+        } catch (Exception ex) {
+            throw new RuntimeException("Could not create the directory where the uploaded files will be stored.", ex);
+        }
+    }
 
     @GetMapping("/")
     public String connection(Model out) {
@@ -289,28 +305,19 @@ public class ShopController extends Component {
         Optional<User> optionalUser = userRepository.findById(idUser);
         if (optionalUser.isPresent()) {
             User userFromDb = (User) session.getAttribute("sessionUser");
-            // Root Directory.
-            String uploadRootPath = request.getServletContext().getRealPath("upload");
-            System.out.println("uploadRootPath=" + uploadRootPath);
-            File uploadRootDir = new File(uploadRootPath);
-            // Create directory if it not exists.
-            if (!uploadRootDir.exists()) {
-                uploadRootDir.mkdirs();
-            }
             MultipartFile[] fileDatas = uploadForm.getFileDatas();
-
             for (MultipartFile fileData : fileDatas) {
 
                 // Client File Name
-                String name = fileData.getOriginalFilename();
-                if (name != null && name.length() > 0) {
+                String name = idUser + "-" + fileData.getOriginalFilename();
+                if (name.length() > 0) {
                     try {
                         // Create the file at server
-                        File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name);
+                        Path targetLocation = fileStorageLocation.resolve(name);
+                        File serverFile = targetLocation.toFile();
                         BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
                         stream.write(fileData.getBytes());
                         stream.close();
-
                         userFromDb.setPicture(serverFile.getPath());
                         userRepository.save(userFromDb);
                     } catch (Exception e) {
