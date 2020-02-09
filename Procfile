@@ -1,1 +1,1 @@
-web: java -jar target/wildmotorstore-1.0.jar
+web: java -jar target/wildmotorstore-1.0.war
