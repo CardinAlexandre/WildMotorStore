@@ -4,5 +4,10 @@
       "name": "management.endpoints.jmx.domain",
       "type": "java.lang.String",
       "description": "Description for management.endpoints.jmx.domain."
-  }
-] }
+    },
+    {
+      "name": "spring.jpa.hibernate.naming-strategy",
+      "type": "java.lang.String",
+      "description": "Description for spring.jpa.hibernate.naming-strategy."
+    }
+  ] }
