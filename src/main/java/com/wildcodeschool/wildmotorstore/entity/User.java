@@ -24,7 +24,7 @@ public class User {
     private String password;
     private String phoneNumber;
     private String address;
-    private String picture = "/private/var/folders/zv/gjt3dnsj25s7800jztf6pf640000gn/T/tomcat-docbase.52501646801450084.8080/upload/26111906_10213572017068530_765461139285709449_n.jpg";
+    private String picture;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Cart> carts;
