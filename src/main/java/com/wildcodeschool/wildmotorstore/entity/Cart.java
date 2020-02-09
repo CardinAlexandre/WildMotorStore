@@ -1,4 +1,4 @@
-package motor.bike.shop.entity;
+package com.wildcodeschool.wildmotorstore.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;

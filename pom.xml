@@ -8,8 +8,8 @@
 		<version>2.2.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>motor.bike</groupId>
-	<artifactId>shop</artifactId>
+	<groupId>com.wildcodeschool</groupId>
+	<artifactId>wildmotorstore</artifactId>
 	<version>1.0</version>
 	<packaging>war</packaging>
 	<name>wildmotorstore</name>

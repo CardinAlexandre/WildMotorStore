@@ -1,6 +1,6 @@
-package motor.bike.shop;
+package com.wildcodeschool.wildmotorstore;
 
-import motor.bike.shop.entity.FileStorageProperties;
+import com.wildcodeschool.wildmotorstore.entity.FileStorageProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

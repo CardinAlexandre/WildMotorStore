@@ -1,6 +1,6 @@
-package motor.bike.shop.repository;
+package com.wildcodeschool.wildmotorstore.repository;
 
-import motor.bike.shop.entity.User;
+import com.wildcodeschool.wildmotorstore.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

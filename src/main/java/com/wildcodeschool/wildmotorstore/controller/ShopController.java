@@ -1,11 +1,11 @@
-package motor.bike.shop.controller;
+package com.wildcodeschool.wildmotorstore.controller;
 
 import com.google.common.hash.Hashing;
-import motor.bike.shop.entity.*;
-import motor.bike.shop.repository.CartRepository;
-import motor.bike.shop.repository.ProductRepository;
-import motor.bike.shop.repository.PurchaseRepository;
-import motor.bike.shop.repository.UserRepository;
+import com.wildcodeschool.wildmotorstore.entity.*;
+import com.wildcodeschool.wildmotorstore.repository.PurchaseRepository;
+import com.wildcodeschool.wildmotorstore.repository.CartRepository;
+import com.wildcodeschool.wildmotorstore.repository.ProductRepository;
+import com.wildcodeschool.wildmotorstore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
